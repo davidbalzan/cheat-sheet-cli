@@ -50,7 +50,6 @@ pub fn createFile(fullPath: []const u8) !?std.fs.File {
     }) catch |e| {
         switch (e) {
             error.PathAlreadyExists => {
-                std.log.info("already exists", .{});
                 return null;
             },
             else => return e, // Propagate other errors
