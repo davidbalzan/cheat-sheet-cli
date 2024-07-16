@@ -16,28 +16,13 @@ const CheatSheet = struct {
 };
 
 pub fn renderCategoryTitle(category: Category) !void {
-    const titleLength = 90;
-    const categoryLength = category.category.len;
-    const startLine = " -- 📂 ---------------------------- ";
-    const paddingChar = '-';
-    const paddingLength = (titleLength - categoryLength - startLine.len);
-    var endLine: [titleLength]u8 = undefined;
+    const startLine = " -- 📂  ";
 
-    // Initialize endLine with spaces
-    for (&endLine) |*byte| {
-        byte.* = ' ';
-    }
-
-    // loop paddingLength times and append paddingChar to endLine
-    for (0..paddingLength) |i| {
-        endLine[i] = paddingChar;
-    }
-
-    std.debug.print("\x1b[33m\x1b[1m{s} {s} {s}\x1b[0m\x1b[0m\n", .{ startLine, category.category, endLine });
+    std.debug.print("\x1b[33m\x1b[1m{s} {s:-^85}\x1b[0m\x1b[0m\n", .{ startLine, category.category });
 }
 
 pub fn renderBinding(entry: Entry) !void {
-    std.debug.print("\x1b[1m{s}\x1b[0m: ", .{entry.key});
+    std.debug.print("\x1b[1m{s: <30}\x1b[0m ", .{entry.key});
     std.debug.print("  {s}\n", .{entry.description});
 }
 
@@ -80,7 +65,6 @@ pub fn main() !void {
 
     // Attempt to create the file, handling the case where the file might already exist
     const newFile = try createFile(fullPath);
-
 
     // If the file was newly created, write the initial JSON structure to it
     if (newFile) |f| {
